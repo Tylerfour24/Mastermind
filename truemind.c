@@ -29,12 +29,25 @@ int main(void)
 	answer[3] = place4;
 
 	printf("Let's play some mastermind...\nI'm thinking of a four digit number.\nThere are no zeroes!\n");
+
 	while(*redcount != 4) {
 		*redcount = 0;
 		*whitecount = 0;
-		printf("Please enter your guess: ");
+		
+		printf("Please enter your 4-digit guess: ");
 		fgets(attempt, sizeof(attempt)+1, stdin);
-	
+		
+		if(attempt[4] != '\n') {
+			while(!strchr(attempt, '\n')) {
+				fgets(attempt, sizeof(attempt)+1, stdin);
+			}
+			attempt[4] = '\0';
+		}
+
+		else {
+			attempt[4] = '\0';
+		}
+
 		for(index = 0; index < 4; index++) {
 			attempt[index]-='0';
 		}
@@ -68,13 +81,13 @@ void game(char *attempt, char *answer, int *redcount, int *whitecount) {
 	for(index = 0; index < 4; index++) {
 		for(altindex = 0; altindex < 4; altindex++) {
 			if(altindex == index) {
-				; //Do Nothing
+				;
 			}
 			else if(parattempt[altindex] == paranswer[index]) {
 				*whitecount += 1;
-				paranswer[index] = ' ';//Holy crap, I was modifying the altindex of answer instead of the index of answer. Thank the rubber duckie!
+				paranswer[index] = ' ';
 				parattempt[altindex] = '\t';
-			}//Are there any errors left?
+			}
 		}
 	}
 }
